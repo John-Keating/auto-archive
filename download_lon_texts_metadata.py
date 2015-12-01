@@ -30,10 +30,10 @@ def get_doc_data(url):
     return docs
 
 
-def add_to_mongo(docs, database_name=db, collection):
+def add_to_mongo(docs):
     '''
     This function given a list of dictionary, or dictionary like objects
-    will insert each one specified mongodb database-collection
+    will insert each one to my mongodb database-collection
 
     args:
     '''
@@ -41,18 +41,18 @@ def add_to_mongo(docs, database_name=db, collection):
 
     client = MongoClient()
 
-    db = client.database_name
+    db = client.lon_db
 
-    coll = db.collection
+    coll = db.lon_docs
 
     for doc in docs:
-        docs.insert_one(doc)
+        coll.insert_one(doc)
         counter += 1
 
     print 'inserted ' + str(counter) + ' documents'
 
 
-def build_urls(base_url = 'http://search.un.org/direct.php?&tpl=lon&query=',
+def build_urls(base_url='http://search.un.org/direct.php?&tpl=lon&query=',
               query='*:*', start=0, rows=100, number=2000):
     '''
     This function will build a list of all urls based on a search query of
