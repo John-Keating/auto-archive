@@ -6,6 +6,7 @@
 # libraries
 from urllib2 import urlopen
 from pymongo import MongoClient
+from time import sleep
 
 base_url = 'http://search.un.org/direct.php?&tpl=lon&query=*:*&wt=python&rows=1&start=1'
 
@@ -80,8 +81,12 @@ def run_through_urls(url_list):
     and input the retuned data into a mongoDB database
 
     '''
+
     for url in url_list:
         docs = get_doc_data(url)
-        add_to_mongo(docs)
-
-
+        if docs == []:
+            print 'completed'
+            break
+        else:
+            add_to_mongo(docs)
+            sleep(5)
